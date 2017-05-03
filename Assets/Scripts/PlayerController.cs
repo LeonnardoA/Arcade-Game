@@ -11,9 +11,10 @@ public class PlayerController : MonoBehaviour {
     {
         winHUD.SetActive(false);
     }
-    
+
     private void ResetMap()
     {
+        Physics.gravity = new Vector3(0, 9.81f, 0);
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.parent.rotation = Quaternion.identity;
         transform.localPosition = spawnPoint.position;
