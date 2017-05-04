@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Gravity : MonoBehaviour {
 
-    private string gravityDir = " ";
+    [HideInInspector]
+    public string gravityDir = " ";
     private float gravityForce = 10;
     private Rigidbody rb;
 
@@ -17,11 +18,14 @@ public class Gravity : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        rb.AddRelativeForce(transform.up * gravityForce, ForceMode.Acceleration);
+        rb.AddForce(new Vector3(0, gravityForce, 0), ForceMode.Acceleration);
     }
 
     public void ChangeGravity(string dir)
     {
+        if (dir != "UP" && dir != "DOWN")
+            return;
+
         switch (dir)
         {
             case "DOWN":

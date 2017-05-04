@@ -4,30 +4,35 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public Transform spawnPoint;
+    //HUD
     public GameObject winHUD;
+
+    ///Gameplay
+    [HideInInspector]
+    public GameObject currentMap;
+    private Transform spawnPoint;
 
     private void Start()
     {
         winHUD.SetActive(false);
+        if(currentMap)
+        spawnPoint = currentMap.transform.FindChild("SpawnPoint");
     }
 
-    /*private void ResetMap()
+    private void ResetMap()
     {
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        transform.parent.rotation = Quaternion.identity;
-        transform.localPosition = spawnPoint.position;
-    }*/
-
-    void ShowWinHUD()
-    {
-        winHUD.SetActive(true);
+        if (currentMap)
+        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            transform.parent.rotation = Quaternion.identity;
+            transform.localPosition = spawnPoint.position;
+        }
     }
-
+    
     private void OnTriggerExit(Collider other)
     {
-        //if (other.gameObject.CompareTag("MarginMap"))
-            //ResetMap();
+        if (other.gameObject.CompareTag("MarginMap"))
+            ResetMap();
 
         if (other.gameObject.name == "Portal")
             ShowWinHUD();
@@ -35,7 +40,13 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.gameObject.CompareTag("Danger"))
-           // ResetMap();
+        if (collision.gameObject.CompareTag("Danger"))
+            ResetMap();
+    }
+
+    //HUD
+    void ShowWinHUD()
+    {
+        winHUD.SetActive(true);
     }
 }
