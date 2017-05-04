@@ -12,31 +12,30 @@ public class PlayerController : MonoBehaviour {
         winHUD.SetActive(false);
     }
 
-    private void ResetMap()
+    /*private void ResetMap()
     {
-        Physics.gravity = new Vector3(0, -9.81f, 0);
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         transform.parent.rotation = Quaternion.identity;
         transform.localPosition = spawnPoint.position;
-    }
+    }*/
 
-    void DoWinGame()
+    void ShowWinHUD()
     {
         winHUD.SetActive(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("MarginMap"))
-            ResetMap();
+        //if (other.gameObject.CompareTag("MarginMap"))
+            //ResetMap();
 
-        else if (other.gameObject.name == "Portal")
-            DoWinGame();
+        if (other.gameObject.name == "Portal")
+            ShowWinHUD();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Danger"))
-            ResetMap();
+        //if (collision.gameObject.CompareTag("Danger"))
+           // ResetMap();
     }
 }

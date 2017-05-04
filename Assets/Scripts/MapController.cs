@@ -7,13 +7,14 @@ public class MapController : MonoBehaviour {
 
     public float speed;
     public Rigidbody player1;
+    public List<Transform> dynamicsObjs = new List<Transform>();
 
     private int velocityPlayers = 4;
 
     private void Update()
     {
         float moveHorizontal = InputArcade.Eixo(1, EEixo.HORIZONTAL);
-        
+
         transform.Rotate(moveHorizontal * -transform.forward * speed * Time.deltaTime);
         if (transform.eulerAngles.z > 45 && transform.eulerAngles.z < 60)
             transform.rotation = Quaternion.Euler(0, 0, 45);
@@ -22,12 +23,18 @@ public class MapController : MonoBehaviour {
 
         if (InputArcade.Apertou(1, EControle.VERDE))
         {
-            Physics.gravity *= -1;
+            DoGravityChanges();
         }
         player1.velocity = new Vector3(Mathf.Clamp(player1.velocity.x, -velocityPlayers, velocityPlayers),
         Mathf.Clamp(player1.velocity.y, -velocityPlayers, velocityPlayers),
         Mathf.Clamp(player1.velocity.z, -velocityPlayers, velocityPlayers));
-        
-        Debug.Log(transform.eulerAngles.z);
+    }
+
+    private void DoGravityChanges()
+    {
+        for (int i = 0; i < dynamicsObjs.Count; i++)
+        {
+            //switch()
+        }
     }
 }
