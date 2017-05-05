@@ -23,9 +23,10 @@ public class PlayerController : MonoBehaviour {
     {
         if (currentMap)
         {
+            currentMap.GetComponent<MapController>().DoGravityChanges(true);
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             transform.parent.rotation = Quaternion.identity;
-            transform.localPosition = spawnPoint.position;
+            transform.localPosition = spawnPoint.localPosition;
         }
     }
     

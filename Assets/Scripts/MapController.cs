@@ -28,7 +28,7 @@ public class MapController : MonoBehaviour {
 
         if (InputArcade.Apertou(1, EControle.VERDE))
         {
-            DoGravityChanges();
+            DoGravityChanges(false);
         }
     }
 
@@ -47,8 +47,14 @@ public class MapController : MonoBehaviour {
         Mathf.Clamp(playerRb.velocity.z, -velocityPlayers, velocityPlayers));
     }
 
-    private void DoGravityChanges()
+    public void DoGravityChanges(bool reset)
     {
+        if (reset)
+        {
+            ResetGravity();
+            return;
+        }
+
         for (int i = 0; i < dynamicsObjs.Count; i++)
         {
             Gravity currentObj = dynamicsObjs[i].GetComponent<Gravity>();
@@ -62,6 +68,15 @@ public class MapController : MonoBehaviour {
                     currentObj.ChangeGravity("DOWN");
                     break;
             }
+        }
+    }
+
+    private void ResetGravity()
+    {
+        for (int i = 0; i < dynamicsObjs.Count; i++)
+        {
+            Gravity currentObj = dynamicsObjs[i].GetComponent<Gravity>();
+            currentObj.ChangeGravity("DOWN");
         }
     }
 }
