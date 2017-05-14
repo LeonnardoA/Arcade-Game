@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: ea11bdd3b0fd3de4aa519811194fea01
-timeCreated: 1493773493
-licenseType: Pro
+timeCreated: 1494802823
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - winHUD: {instanceID: 0}
+  - currentMap: {instanceID: 0}
+  - RespawnSound: {instanceID: 0}
+  - BoostSound: {instanceID: 0}
+  - warpUp: {instanceID: 0}
+  - warpOut: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Gravity : MonoBehaviour
 {
+
     [HideInInspector]
     public static string gravityDir1 = " ";
     [HideInInspector]

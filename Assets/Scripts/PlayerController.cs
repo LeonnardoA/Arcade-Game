@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour {
     private Transform spawnPoint;
     public string player;
 
+    public AudioClip RespawnSound;
+    public AudioClip BoostSound;
+    public AudioClip warpUp;
+    public AudioClip warpOut;
+
     private void Start()
     {
         winHUD.SetActive(false);
@@ -36,8 +41,10 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("MarginMap"))
+        {
+            SoundMannager.instance.PlaySingle(RespawnSound);
             ResetMap();
-
+        }
         if (other.gameObject.name == "Portal")
             ShowWinHUD();
     }
@@ -45,7 +52,10 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Danger"))
+        {
+            SoundMannager.instance.PlaySingle(RespawnSound);
             ResetMap();
+        }
     }
 
     //HUD
