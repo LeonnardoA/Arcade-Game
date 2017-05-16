@@ -20,6 +20,11 @@ public class Gravity : MonoBehaviour
         gravityDir2 = "DOWN";
     }
 
+    private void Start()
+    {
+        SoundController.StartSounds();
+    }
+
     private void FixedUpdate()
     {
         if (rb1 != null)

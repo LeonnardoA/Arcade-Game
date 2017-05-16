@@ -36,20 +36,31 @@ public class MapController : MonoBehaviour {
             if (InputArcade.Apertou(0, EControle.VERDE))
             {
                 if (Gravity.gravityDir1 == "DOWN")
+                {
                     Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "UP");
+                    SoundController.PlaySound(0, "GravityUP");
+                }
                 else
+                {
                     Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "DOWN");
+                    SoundController.PlaySound(0, "GravityDOWN");
+                }
             }
         }
         if (currentPlayer == "Player2")
         {
             if (InputArcade.Apertou(1, EControle.VERDE))
             {
-                Debug.Log(currentPlayer);
                 if (Gravity.gravityDir2 == "DOWN")
+                {
                     Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "UP");
+                    SoundController.PlaySound(1, "GravityUP");
+                }
                 else
+                {
                     Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "DOWN");
+                    SoundController.PlaySound(1, "GravityDOWN");
+                }
             }
         }
     }

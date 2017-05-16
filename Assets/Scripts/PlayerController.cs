@@ -12,12 +12,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject currentMap;
     private Transform spawnPoint;
     public string player;
-
-    public AudioClip RespawnSound;
-    public AudioClip BoostSound;
-    public AudioClip warpUp;
-    public AudioClip warpOut;
-
+    
     private void Start()
     {
         winHUD.SetActive(false);
@@ -35,6 +30,16 @@ public class PlayerController : MonoBehaviour {
             transform.localPosition = spawnPoint.localPosition;
             Transform parent = transform.parent.parent;
             parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
+
+            switch (player)
+            {
+                case "Player1":
+                    SoundController.PlaySound(0, "Respawn");
+                    break;
+                case "Player2":
+                    SoundController.PlaySound(0, "Respawn");
+                    break;
+            }
         }
     }
     
@@ -42,7 +47,6 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("MarginMap"))
         {
-            SoundMannager.instance.PlaySingle(RespawnSound);
             ResetMap();
         }
         if (other.gameObject.name == "Portal")
@@ -53,7 +57,6 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
-            SoundMannager.instance.PlaySingle(RespawnSound);
             ResetMap();
         }
     }
