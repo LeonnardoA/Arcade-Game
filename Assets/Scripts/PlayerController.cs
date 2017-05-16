@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     ///Gameplay
     [HideInInspector]
     public GameObject currentMap;
+    public GameController gameController;
     private Transform spawnPoint;
     public string player;
     
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             transform.parent.rotation = Quaternion.identity;
             transform.localPosition = spawnPoint.localPosition;
-            Transform parent = transform.parent.parent;
+            Transform parent = transform.parent.parent.parent;
             parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
 
             switch (player)
@@ -50,7 +51,10 @@ public class PlayerController : MonoBehaviour {
             ResetMap();
         }
         if (other.gameObject.name == "Portal")
-            ShowWinHUD();
+        {
+            //ShowWinHUD();
+            gameController.ChangeLevel(player);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

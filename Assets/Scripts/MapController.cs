@@ -12,13 +12,14 @@ public class MapController : MonoBehaviour {
 
     private int maxVelocty = 4;
     private Rigidbody playerRb;
+    private bool isEnabled = false;
 
     private void Awake()
     {
         player.GetComponent<PlayerController>().currentMap = gameObject;
     }
 
-    private void Start()
+    public void OnEnable()
     {
         playerRb = player.GetComponent<Rigidbody>();
 
@@ -26,6 +27,8 @@ public class MapController : MonoBehaviour {
             Gravity.DoChangeGravity(currentPlayer, dynamicObjs, Gravity.gravityDir1);
         if (currentPlayer == "Player2")
             Gravity.DoChangeGravity(currentPlayer, dynamicObjs, Gravity.gravityDir2);
+
+        isEnabled = true;
     }
 
     private void Update()
@@ -87,37 +90,4 @@ public class MapController : MonoBehaviour {
         Mathf.Clamp(playerRb.velocity.y, -maxVelocty, maxVelocty),
         Mathf.Clamp(playerRb.velocity.z, -maxVelocty, maxVelocty));
     }
-
-   /* public void DoGravityChanges(bool reset)
-    {
-        if (reset)
-        {
-            ResetGravity();
-            return;
-        }
-
-        for (int i = 0; i < dynamicsObjs.Count; i++)
-        {
-            Gravity currentObj = dynamicsObjs[i].GetComponent<Gravity>();
-
-            switch (currentObj.gravityDir)
-            {
-                case "DOWN":
-                    currentObj.ChangeGravity("UP");
-                    break;
-                case "UP":
-                    currentObj.ChangeGravity("DOWN");
-                    break;
-            }
-        }
-    }
-
-    private void ResetGravity()
-    {
-        for (int i = 0; i < dynamicsObjs.Count; i++)
-        {
-            Gravity currentObj = dynamicsObjs[i].GetComponent<Gravity>();
-            currentObj.ChangeGravity("DOWN");
-        }
-    }*/
 }
