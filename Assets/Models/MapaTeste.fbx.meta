@@ -1,0 +1,153 @@
+fileFormatVersion: 2
+guid: acac0676f85de5348aded0c1231c217b
+timeCreated: 1494899740
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Camera
+    100002: Cubo
+    100004: Cubo.001
+    100006: Cubo.002
+    100008: Cubo.003
+    100010: "Esfera icosa\xE9drica"
+    100012: "Esfera icosa\xE9drica.001"
+    100014: "Esfera icosa\xE9drica.002"
+    100016: "Esfera icosa\xE9drica.003"
+    100018: "Esfera icosa\xE9drica.004"
+    100020: "Esfera icosa\xE9drica.005"
+    100022: Lamp
+    100024: //RootNode
+    100026: Plano
+    100028: Torus
+    100030: Torus.001
+    100032: Torus.002
+    400000: Camera
+    400002: Cubo
+    400004: Cubo.001
+    400006: Cubo.002
+    400008: Cubo.003
+    400010: "Esfera icosa\xE9drica"
+    400012: "Esfera icosa\xE9drica.001"
+    400014: "Esfera icosa\xE9drica.002"
+    400016: "Esfera icosa\xE9drica.003"
+    400018: "Esfera icosa\xE9drica.004"
+    400020: "Esfera icosa\xE9drica.005"
+    400022: Lamp
+    400024: //RootNode
+    400026: Plano
+    400028: Torus
+    400030: Torus.001
+    400032: Torus.002
+    2300000: Cubo
+    2300002: Cubo.001
+    2300004: Cubo.002
+    2300006: Cubo.003
+    2300008: "Esfera icosa\xE9drica"
+    2300010: "Esfera icosa\xE9drica.001"
+    2300012: "Esfera icosa\xE9drica.002"
+    2300014: "Esfera icosa\xE9drica.003"
+    2300016: "Esfera icosa\xE9drica.004"
+    2300018: "Esfera icosa\xE9drica.005"
+    2300020: Plano
+    2300022: Torus
+    2300024: Torus.001
+    2300026: Torus.002
+    3300000: Cubo
+    3300002: Cubo.001
+    3300004: Cubo.002
+    3300006: Cubo.003
+    3300008: "Esfera icosa\xE9drica"
+    3300010: "Esfera icosa\xE9drica.001"
+    3300012: "Esfera icosa\xE9drica.002"
+    3300014: "Esfera icosa\xE9drica.003"
+    3300016: "Esfera icosa\xE9drica.004"
+    3300018: "Esfera icosa\xE9drica.005"
+    3300020: Plano
+    3300022: Torus
+    3300024: Torus.001
+    3300026: Torus.002
+    4300000: "Esfera icosa\xE9drica.001"
+    4300002: "Esfera icosa\xE9drica"
+    4300004: Torus
+    4300006: Cubo.001
+    4300008: Cubo
+    4300010: Plano
+    4300012: Torus.001
+    4300014: Cubo.002
+    4300016: Torus.002
+    4300018: Cubo.003
+    4300020: "Esfera icosa\xE9drica.002"
+    4300022: "Esfera icosa\xE9drica.003"
+    4300024: "Esfera icosa\xE9drica.004"
+    4300026: "Esfera icosa\xE9drica.005"
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
