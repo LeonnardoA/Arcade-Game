@@ -49,8 +49,12 @@
      <Compile Include="Assets\ArcadePUCCampinas\Scripts\ArcadeJogo.cs" />
      <Compile Include="Assets\ArcadePUCCampinas\Scripts\InputArcade.cs" />
      <Compile Include="Assets\ArcadePUCCampinas\Scripts\Singleton.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Gravity.cs" />
      <Compile Include="Assets\Scripts\MapController.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\SoundController.cs" />
+     <Compile Include="Assets\Scripts\Testes\Timer.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

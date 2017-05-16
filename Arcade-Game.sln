@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcade-Game", "Arcade-Game.csproj", "{74361E90-24E7-D0D2-526B-8728796D0485}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcade-Game", "Assembly-CSharp.csproj", "{779C08C2-5DF8-FE47-3248-F31C8BF82993}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74361E90-24E7-D0D2-526B-8728796D0485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74361E90-24E7-D0D2-526B-8728796D0485}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74361E90-24E7-D0D2-526B-8728796D0485}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74361E90-24E7-D0D2-526B-8728796D0485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{779C08C2-5DF8-FE47-3248-F31C8BF82993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{779C08C2-5DF8-FE47-3248-F31C8BF82993}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{779C08C2-5DF8-FE47-3248-F31C8BF82993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{779C08C2-5DF8-FE47-3248-F31C8BF82993}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
