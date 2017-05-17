@@ -9,8 +9,8 @@ public class Gravity : MonoBehaviour
     public static string gravityDir1 = " ";
     [HideInInspector]
     public static string gravityDir2 = " ";
-    private static float gravityForce1 = 10;
-    private static float gravityForce2 = 10;
+    public static float gravityForce1 = 20;
+    public static float gravityForce2 = 20;
     private static List<Rigidbody> rb1 = new List<Rigidbody>();
     private static List<Rigidbody> rb2 = new List<Rigidbody>();
 
@@ -24,11 +24,29 @@ public class Gravity : MonoBehaviour
     {
         SoundController.StartSounds();
     }
+    
+    public static void ConfigDynamicObjs(string player, List<Rigidbody> rb)
+    {
+        switch (player)
+        {
+            case "Player1":
+                rb1 = rb;
+                DoChangeGravity("Player1", gravityDir1);
+                break;
+            case "Player2":
+                rb2 = rb;
+                DoChangeGravity("Player2", gravityDir2);
+                break;
+        }
+    }
 
     private void FixedUpdate()
     {
         if (rb1 != null)
         {
+            if (gravityDir1 == "ZeroGravity")
+                return;
+
             for (int i = 0; i < rb1.Count; i++)
             {
                 if (rb1[i])
@@ -38,6 +56,9 @@ public class Gravity : MonoBehaviour
         }
         if (rb2 != null)
         {
+            if (gravityDir2 == "ZeroGravity")
+                return;
+
             for (int i = 0; i < rb2.Count; i++)
             {
                 if (rb2[i])
@@ -46,26 +67,16 @@ public class Gravity : MonoBehaviour
         }
     }
 
-    public static void DoChangeGravity(string player, List<Rigidbody> dynamicObjs, string dir)
+    public static void DoChangeGravity(string player, string dir)
     {
         switch (player)
         {
             case "Player1":
-                if (dynamicObjs == null)
-                {
-                    ChangeGravity1(dir);
-                    return;
-                }
-                rb1 = dynamicObjs;
+               // rb1 = dynamicObjs;
                 ChangeGravity1(dir);
                 break;
             case "Player2":
-                if (dynamicObjs == null)
-                {
-                    ChangeGravity2(dir);
-                    return;
-                }
-                rb2 = dynamicObjs;
+                //rb2 = dynamicObjs;
                 ChangeGravity2(dir);
                 break;
         }
@@ -73,7 +84,7 @@ public class Gravity : MonoBehaviour
 
     private static void ChangeGravity1(string dir)
     {
-        if (dir != "UP" && dir != "DOWN")
+        if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity")
             return;
 
         switch (dir)
@@ -82,7 +93,7 @@ public class Gravity : MonoBehaviour
                 if (gravityForce1 > 0)
                 {
                     rb1[0].velocity = new Vector3(rb1[0].velocity.x, 0, rb1[0].velocity.z);
-                    gravityForce1 *= -1;
+                        gravityForce1 *= -1;
                 }
                 gravityDir1 = "DOWN";
                 break;
@@ -94,12 +105,16 @@ public class Gravity : MonoBehaviour
                 }
                 gravityDir1 = "UP";
                 break;
+            case "ZeroGravity":
+                gravityDir1 = "ZeroGravity";
+                gravityForce1 = 20;
+                break;
         }
     }
 
     private static void ChangeGravity2(string dir)
     {
-        if (dir != "UP" && dir != "DOWN")
+        if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity")
             return;
 
         switch (dir)
@@ -116,9 +131,13 @@ public class Gravity : MonoBehaviour
                 if (gravityForce2 < 0)
                 {
                     rb2[0].velocity = new Vector3(rb2[0].velocity.x, 0, rb2[0].velocity.z);
-                    gravityForce2 *= -1;
+                    gravityForce2 = 20;
                 }
                 gravityDir2 = "UP";
+                break;
+            case "ZeroGravity":
+                gravityDir2 = "ZeroGravity";
+                gravityForce2 = 0;
                 break;
         }
     }

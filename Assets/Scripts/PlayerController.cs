@@ -4,41 +4,44 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    //HUD
-    public GameObject winHUD;
 
     ///Gameplay
-    [HideInInspector]
+   // [HideInInspector]
     public GameObject currentMap;
     public GameController gameController;
     private Transform spawnPoint;
     public string player;
-    
+    List<Rigidbody> playerRb = new List<Rigidbody>();
+
     private void Start()
     {
-        winHUD.SetActive(false);
         if(currentMap)
         spawnPoint = currentMap.transform.FindChild("SpawnPoint");
+        
+        playerRb.Add(this.GetComponent<Rigidbody>());
     }
 
     private void ResetMap()
     {
         if (currentMap)
         {
-            Gravity.DoChangeGravity(player, null, "DOWN");
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
-            transform.parent.rotation = Quaternion.identity;
+            Gravity.DoChangeGravity(player, "DOWN");
+            playerRb[0].velocity = Vector3.zero;
+            //playerRb[0].isKinematic = false;
+            currentMap.transform.rotation = Quaternion.identity;
             transform.localPosition = spawnPoint.localPosition;
-            Transform parent = transform.parent.parent.parent;
-            parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
+            //Transform parent = transform.parent.parent.parent;
+           // parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
 
             switch (player)
             {
                 case "Player1":
                     SoundController.PlaySound(0, "Respawn");
+                    Gravity.gravityForce1 = -20;
                     break;
                 case "Player2":
                     SoundController.PlaySound(0, "Respawn");
+                    Gravity.gravityForce1 = -20;
                     break;
             }
         }
@@ -52,7 +55,6 @@ public class PlayerController : MonoBehaviour {
         }
         if (other.gameObject.name == "Portal")
         {
-            //ShowWinHUD();
             gameController.ChangeLevel(player);
         }
     }
@@ -63,11 +65,5 @@ public class PlayerController : MonoBehaviour {
         {
             ResetMap();
         }
-    }
-
-    //HUD
-    void ShowWinHUD()
-    {
-        winHUD.SetActive(true);
     }
 }

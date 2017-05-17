@@ -12,7 +12,6 @@ public class MapController : MonoBehaviour {
 
     private int maxVelocty = 4;
     private Rigidbody playerRb;
-    private bool isEnabled = false;
 
     private void Awake()
     {
@@ -23,12 +22,7 @@ public class MapController : MonoBehaviour {
     {
         playerRb = player.GetComponent<Rigidbody>();
 
-        if (currentPlayer == "Player1")
-            Gravity.DoChangeGravity(currentPlayer, dynamicObjs, Gravity.gravityDir1);
-        if (currentPlayer == "Player2")
-            Gravity.DoChangeGravity(currentPlayer, dynamicObjs, Gravity.gravityDir2);
-
-        isEnabled = true;
+        Gravity.ConfigDynamicObjs(currentPlayer, dynamicObjs);
     }
 
     private void Update()
@@ -40,12 +34,17 @@ public class MapController : MonoBehaviour {
             {
                 if (Gravity.gravityDir1 == "DOWN")
                 {
-                    Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "UP");
+                    Gravity.DoChangeGravity(currentPlayer, "UP");
                     SoundController.PlaySound(0, "GravityUP");
                 }
-                else
+                else if (Gravity.gravityDir1 == "UP")
                 {
-                    Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "DOWN");
+                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
+                    SoundController.PlaySound(0, "GravityDOWN");
+                }
+                else if (Gravity.gravityDir1 == "ZeroGravity")
+                {
+                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
                     SoundController.PlaySound(0, "GravityDOWN");
                 }
             }
@@ -56,12 +55,17 @@ public class MapController : MonoBehaviour {
             {
                 if (Gravity.gravityDir2 == "DOWN")
                 {
-                    Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "UP");
+                    Gravity.DoChangeGravity(currentPlayer, "UP");
                     SoundController.PlaySound(1, "GravityUP");
                 }
-                else
+                else if (Gravity.gravityDir2 == "ZeroGravity")
                 {
-                    Gravity.DoChangeGravity(currentPlayer, dynamicObjs, "DOWN");
+                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
+                    SoundController.PlaySound(1, "GravityDOWN");
+                }
+                else if (Gravity.gravityDir2 == "ZeroGravity")
+                {
+                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
                     SoundController.PlaySound(1, "GravityDOWN");
                 }
             }

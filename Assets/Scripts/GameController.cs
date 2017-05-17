@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    //HUD
+    public GameObject winHUD;
+
     // LEVELS
     public Transform[] levels;
     private int totalLevels = 2;
@@ -39,6 +43,12 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer1++;
                     currentPositionPlayer1 -= 30;
                 }
+                else
+                {
+                    winHUD.SetActive(true);
+                    Text txt = winHUD.transform.Find("Text").GetComponent<Text>();
+                    txt.text = "Jogador 1 venceu!";
+                }
                 break;
             case "Player2":
                 if (currentLevelPlayer2 < totalLevels)
@@ -46,11 +56,14 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer2++;
                     currentPositionPlayer2 -= 30;
                 }
+                else
+                {
+                    winHUD.SetActive(true);
+                    Text txt = winHUD.transform.Find("Text").GetComponent<Text>();
+                    txt.text = "Jogador 2 venceu!";
+                }
                 break;
         }
-
-        Debug.Log("currentLevelPlayer1 = " + currentLevelPlayer1);
-        Debug.Log("currentLevelPlayer2 = " + currentLevelPlayer2);
 
         for (int i = 1; i < levels.Length; i++)
         {
