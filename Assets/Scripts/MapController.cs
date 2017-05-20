@@ -49,7 +49,7 @@ public class MapController : MonoBehaviour {
                 }
             }
         }
-        if (currentPlayer == "Player2")
+        if(currentPlayer == "Player2")
         {
             if (InputArcade.Apertou(1, EControle.VERDE))
             {
@@ -58,7 +58,7 @@ public class MapController : MonoBehaviour {
                     Gravity.DoChangeGravity(currentPlayer, "UP");
                     SoundController.PlaySound(1, "GravityUP");
                 }
-                else if (Gravity.gravityDir2 == "ZeroGravity")
+                else if (Gravity.gravityDir2 == "UP")
                 {
                     Gravity.DoChangeGravity(currentPlayer, "DOWN");
                     SoundController.PlaySound(1, "GravityDOWN");

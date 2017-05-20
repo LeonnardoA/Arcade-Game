@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class Gravity : MonoBehaviour
 {
-
-    [HideInInspector]
     public static string gravityDir1 = " ";
-    [HideInInspector]
     public static string gravityDir2 = " ";
     public static float gravityForce1 = 20;
     public static float gravityForce2 = 20;
@@ -16,8 +13,8 @@ public class Gravity : MonoBehaviour
 
     private void Awake()
     {
-        gravityDir1 = "DOWN";
         gravityDir2 = "DOWN";
+        gravityDir1 = "DOWN";
     }
 
     private void Start()
@@ -131,13 +128,13 @@ public class Gravity : MonoBehaviour
                 if (gravityForce2 < 0)
                 {
                     rb2[0].velocity = new Vector3(rb2[0].velocity.x, 0, rb2[0].velocity.z);
-                    gravityForce2 = 20;
+                    gravityForce2 *= -1;
                 }
                 gravityDir2 = "UP";
                 break;
             case "ZeroGravity":
                 gravityDir2 = "ZeroGravity";
-                gravityForce2 = 0;
+                gravityForce2 = 20;
                 break;
         }
     }
