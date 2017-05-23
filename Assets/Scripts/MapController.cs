@@ -12,9 +12,11 @@ public class MapController : MonoBehaviour {
 
     private int maxVelocty = 4;
     private Rigidbody playerRb;
+    public static bool inGame = false;
 
     private void Awake()
     {
+        inGame = false;
         player.GetComponent<PlayerController>().currentMap = gameObject;
     }
 
@@ -27,46 +29,48 @@ public class MapController : MonoBehaviour {
 
     private void Update()
     {
-        RotateMap();
-        if (currentPlayer == "Player1")
-        {
-            if (InputArcade.Apertou(0, EControle.VERDE))
+        if (inGame) {
+            RotateMap();
+            if (currentPlayer == "Player1")
             {
-                if (Gravity.gravityDir1 == "DOWN")
+                if (InputArcade.Apertou(0, EControle.VERDE))
                 {
-                    Gravity.DoChangeGravity(currentPlayer, "UP");
-                    SoundController.PlaySound(0, "GravityUP");
-                }
-                else if (Gravity.gravityDir1 == "UP")
-                {
-                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
-                    SoundController.PlaySound(0, "GravityDOWN");
-                }
-                else if (Gravity.gravityDir1 == "ZeroGravity")
-                {
-                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
-                    SoundController.PlaySound(0, "GravityDOWN");
+                    if (Gravity.gravityDir1 == "DOWN")
+                    {
+                        Gravity.DoChangeGravity(currentPlayer, "UP");
+                        SoundController.PlaySound(0, "GravityUP");
+                    }
+                    else if (Gravity.gravityDir1 == "UP")
+                    {
+                        Gravity.DoChangeGravity(currentPlayer, "DOWN");
+                        SoundController.PlaySound(0, "GravityDOWN");
+                    }
+                    else if (Gravity.gravityDir1 == "ZeroGravity")
+                    {
+                        Gravity.DoChangeGravity(currentPlayer, "DOWN");
+                        SoundController.PlaySound(0, "GravityDOWN");
+                    }
                 }
             }
-        }
-        if(currentPlayer == "Player2")
-        {
-            if (InputArcade.Apertou(1, EControle.VERDE))
+            if (currentPlayer == "Player2")
             {
-                if (Gravity.gravityDir2 == "DOWN")
+                if (InputArcade.Apertou(1, EControle.VERDE))
                 {
-                    Gravity.DoChangeGravity(currentPlayer, "UP");
-                    SoundController.PlaySound(1, "GravityUP");
-                }
-                else if (Gravity.gravityDir2 == "UP")
-                {
-                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
-                    SoundController.PlaySound(1, "GravityDOWN");
-                }
-                else if (Gravity.gravityDir2 == "ZeroGravity")
-                {
-                    Gravity.DoChangeGravity(currentPlayer, "DOWN");
-                    SoundController.PlaySound(1, "GravityDOWN");
+                    if (Gravity.gravityDir2 == "DOWN")
+                    {
+                        Gravity.DoChangeGravity(currentPlayer, "UP");
+                        SoundController.PlaySound(1, "GravityUP");
+                    }
+                    else if (Gravity.gravityDir2 == "UP")
+                    {
+                        Gravity.DoChangeGravity(currentPlayer, "DOWN");
+                        SoundController.PlaySound(1, "GravityDOWN");
+                    }
+                    else if (Gravity.gravityDir2 == "ZeroGravity")
+                    {
+                        Gravity.DoChangeGravity(currentPlayer, "DOWN");
+                        SoundController.PlaySound(1, "GravityDOWN");
+                    }
                 }
             }
         }

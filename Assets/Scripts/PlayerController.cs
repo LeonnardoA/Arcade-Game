@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour
     ///Gameplay
     [HideInInspector]
     public GameObject currentMap;
+    private GameObject cuboQuebrado;
     public GameController gameController;
+    private bool playerIsAlive = true;
+    public Animator fade;
     private Transform spawnPoint;
     private MeshRenderer brilho;
     public string player;
@@ -17,11 +20,13 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        playerIsAlive = true;
         if (currentMap)
             spawnPoint = currentMap.transform.FindChild("SpawnPoint");
 
         playerRb.Add(this.GetComponent<Rigidbody>());
         brilho = transform.Find("brilho").GetComponent<MeshRenderer>();
+        cuboQuebrado = transform.Find("CuboQuebrado").gameObject;
     }
 
     private void Update()
@@ -31,17 +36,37 @@ public class PlayerController : MonoBehaviour
 
     private void ResetMap()
     {
-        if (currentMap)
+        if (currentMap && playerIsAlive)
         {
-            Gravity.DoChangeGravity(player, "DOWN");
-            playerRb[0].velocity = Vector3.zero;
-            //playerRb[0].isKinematic = false;
-            currentMap.transform.rotation = Quaternion.identity;
-            transform.localRotation = Quaternion.identity;
-            transform.localPosition = spawnPoint.localPosition;
-            //Transform parent = transform.parent.parent.parent;
-            // parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
+            playerIsAlive = false;
+            StartCoroutine(DoReset());
         }
+    }
+
+    IEnumerator DoReset()
+    {
+        yield return new WaitForSeconds(.5f);
+        fade.SetTrigger("DoFade");
+        yield return new WaitForSeconds(.5f);
+        Gravity.DoChangeGravity(player, "DOWN");
+        playerRb[0].velocity = Vector3.zero;
+        //playerRb[0].isKinematic = false;
+        currentMap.transform.rotation = Quaternion.identity;
+        transform.localRotation = Quaternion.identity;
+        transform.localPosition = spawnPoint.localPosition;
+        //Transform parent = transform.parent.parent.parent;
+        // parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
+        playerIsAlive = true;
+        cuboQuebrado.GetComponent<Animator>().SetTrigger("Revive");
+        Invoke("waitAnimRevive", .5f);       
+    }
+
+    void waitAnimRevive()
+    {
+        transform.Find("CuboInteiro").gameObject.SetActive(true);
+        cuboQuebrado.SetActive(false);
+        transform.GetComponent<Rigidbody>().isKinematic = false;
+        StopCoroutine(DoReset());
     }
 
     private void OnTriggerExit(Collider other)
@@ -62,9 +87,9 @@ public class PlayerController : MonoBehaviour
         {
             transform.GetComponent<Rigidbody>().isKinematic = true;
             transform.Find("CuboInteiro").gameObject.SetActive(false);
-            GameObject cuboQuebrado = transform.Find("CuboQuebrado").gameObject;
             cuboQuebrado.SetActive(true);
             cuboQuebrado.GetComponent<Animator>().SetTrigger("Die");
+            ResetMap();
 
             switch (player)
             {
@@ -77,18 +102,6 @@ public class PlayerController : MonoBehaviour
                     Gravity.gravityForce1 = -20;
                     break;
             }
-
-            StartCoroutine(Contador());
         }
-    }
-
-    IEnumerator Contador()
-    {
-        yield return new WaitForSeconds(.9f);
-        transform.Find("CuboInteiro").gameObject.SetActive(true);
-        transform.GetComponent<Rigidbody>().isKinematic = false;
-        GameObject cuboQuebrado = transform.Find("CuboQuebrado").gameObject;
-        cuboQuebrado.GetComponent<Animator>().SetTrigger("Revive");
-        ResetMap();
     }
 }

@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 
     // LEVELS
     public Transform[] levels;
-    private int totalLevels = 2;
+    private int totalLevels = 7;
     private int currentLevelPlayer1 = 0;
     private int currentLevelPlayer2 = 0;
     private int currentPositionPlayer1 = 30;
