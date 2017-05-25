@@ -32,7 +32,6 @@ public class CameraController : MonoBehaviour {
         if (transform.position != positionTarget && canDoAnim)
         {
             transform.position = Vector3.MoveTowards(transform.position, positionTarget, speed * Time.deltaTime);
-            Debug.Log("UPDATE IS RUNNING");
         }
         else if (transform.position == positionTarget && canDoAnim)
         {

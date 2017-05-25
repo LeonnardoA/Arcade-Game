@@ -32,7 +32,9 @@ public class BoosterController : MonoBehaviour
     {
         if (playerRb != null && canAddForce)
         {
-            playerRb.AddForce(transform.right * 200, ForceMode.Acceleration);
+            StopCoroutine(DoBoost());
+            canAddForce = false;
+            playerRb.AddForce(transform.right * 1000, ForceMode.Impulse);
         }
     }
 
@@ -40,10 +42,10 @@ public class BoosterController : MonoBehaviour
     {
         yield return new WaitForSeconds(.5f);
         canAddForce = true;
-        //playerRb.AddForce(transform.right * 1000, ForceMode.Acceleration);
-        yield return new WaitForSeconds(.5f);
-        canAddForce = false;
-        StopCoroutine(DoBoost());
+        SoundController.PlaySound(0, "Boost");
+        ////playerRb.AddForce(transform.right * 1000, ForceMode.Acceleration);
+        //yield return new WaitForSeconds(.5f);
+        //canAddForce = false;
     }
     private void OnDrawGizmos()
     {

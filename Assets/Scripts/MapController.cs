@@ -94,8 +94,8 @@ public class MapController : MonoBehaviour {
                 transform.rotation = Quaternion.Euler(0, 0, -45);
         }
 
-        playerRb.velocity = new Vector3(Mathf.Clamp(playerRb.velocity.x, -maxVelocty, maxVelocty),
+        /*playerRb.velocity = new Vector3(Mathf.Clamp(playerRb.velocity.x, -maxVelocty, maxVelocty),
         Mathf.Clamp(playerRb.velocity.y, -maxVelocty, maxVelocty),
-        Mathf.Clamp(playerRb.velocity.z, -maxVelocty, maxVelocty));
+        Mathf.Clamp(playerRb.velocity.z, -maxVelocty, maxVelocty));*/
     }
 }

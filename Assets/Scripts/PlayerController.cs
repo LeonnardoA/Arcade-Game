@@ -58,10 +58,10 @@ public class PlayerController : MonoBehaviour
         // parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
         playerIsAlive = true;
         cuboQuebrado.GetComponent<Animator>().SetTrigger("Revive");
-        Invoke("waitAnimRevive", .5f);       
+        Invoke("WaitAnimRevive", .5f);       
     }
 
-    void waitAnimRevive()
+    void WaitAnimRevive()
     {
         transform.Find("CuboInteiro").gameObject.SetActive(true);
         cuboQuebrado.SetActive(false);
@@ -75,9 +75,15 @@ public class PlayerController : MonoBehaviour
         {
             ResetMap();
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
         if (other.gameObject.name == "Portal")
         {
             gameController.ChangeLevel(player);
+            Gravity.DoChangeGravity(player, "DOWN");
+            playerRb[0].velocity = Vector3.zero;
         }
     }
 
