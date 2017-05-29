@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         playerIsAlive = true;
         if (currentMap)
-            spawnPoint = currentMap.transform.FindChild("SpawnPoint");
+            spawnPoint = currentMap.transform.Find("SpawnPoint");
 
         playerRb.Add(this.GetComponent<Rigidbody>());
         brilho = transform.Find("brilho").GetComponent<MeshRenderer>();
