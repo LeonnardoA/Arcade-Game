@@ -9,22 +9,25 @@ public class MapController : MonoBehaviour {
     public float speed;
     public Transform player;
     public List<Rigidbody> dynamicObjs = new List<Rigidbody>();
-
-    private int maxVelocty = 4;
+    
     private Rigidbody playerRb;
     public static bool inGame = false;
 
     private void Awake()
     {
         inGame = false;
-        player.GetComponent<PlayerController>().currentMap = gameObject;
     }
 
     public void OnEnable()
     {
+        //player.GetComponent<PlayerController>().currentMap = gameObject;
+        player = transform.Find("Player");
+        if(player == null)
+            player = transform.Find("Player2");
+
         playerRb = player.GetComponent<Rigidbody>();
 
-        Gravity.ConfigDynamicObjs(currentPlayer, dynamicObjs);
+        Gravity.ConfigDynamicObjs(currentPlayer, dynamicObjs, player.GetComponent<Rigidbody>());
     }
 
     private void Update()

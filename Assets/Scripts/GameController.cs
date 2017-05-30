@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour
 
     // LEVELS
     public Transform[] levels;
+    public Transform[] player;
+    private PlayerController player1;
+    private PlayerController player2;
     private int totalLevels = 6;
     private int currentLevelPlayer1 = 0;
     private int currentLevelPlayer2 = 0;
@@ -19,6 +22,9 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        player1 = player[0].GetComponent<PlayerController>();
+        player2 = player[1].GetComponent<PlayerController>();
+
         ChangeLevel("Player1");
         ChangeLevel("Player2");
     }
@@ -71,6 +77,10 @@ public class GameController : MonoBehaviour
                 {
                     currentLevelPlayer1++;
                     currentPositionPlayer1 -= 30;
+                    Transform currentLevel1 = levels[0].Find("Map" + currentLevelPlayer1);
+                    player1.currentMap = currentLevel1.gameObject;
+                    player1.transform.SetParent(currentLevel1);
+                    player1.ResetMap();
                 }
                 else
                 {
@@ -85,6 +95,10 @@ public class GameController : MonoBehaviour
                 {
                     currentLevelPlayer2++;
                     currentPositionPlayer2 -= 30;
+                    Transform currentLevel2 = levels[1].Find("Map" + currentLevelPlayer2);
+                    player2.currentMap = currentLevel2.gameObject;
+                    player2.transform.SetParent(currentLevel2);
+                    player2.ResetMap();
                 }
                 else
                 {

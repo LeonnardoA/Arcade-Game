@@ -10,28 +10,32 @@ public class Gravity : MonoBehaviour
     public static float gravityForce2 = 20;
     private static List<Rigidbody> rb1 = new List<Rigidbody>();
     private static List<Rigidbody> rb2 = new List<Rigidbody>();
+    private static Rigidbody playerRb1;
+    private static Rigidbody playerRb2;
 
     private void Awake()
     {
-        gravityDir2 = "DOWN";
         gravityDir1 = "DOWN";
+        gravityDir2 = "DOWN";
     }
 
     private void Start()
     {
         SoundController.StartSounds();
     }
-    
-    public static void ConfigDynamicObjs(string player, List<Rigidbody> rb)
+
+    public static void ConfigDynamicObjs(string player, List<Rigidbody> rb, Rigidbody playerRb)
     {
         switch (player)
         {
             case "Player1":
                 rb1 = rb;
+                playerRb1 = playerRb;
                 DoChangeGravity("Player1", gravityDir1);
                 break;
             case "Player2":
                 rb2 = rb;
+                playerRb2 = playerRb;
                 DoChangeGravity("Player2", gravityDir2);
                 break;
         }
@@ -39,28 +43,28 @@ public class Gravity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (rb1 != null)
+        if (rb1.Count > 0 || playerRb1)
         {
             if (gravityDir1 == "ZeroGravity")
                 return;
 
-            for (int i = 0; i < rb1.Count; i++)
-            {
-                if (rb1[i])
-                    rb1[i].AddForce(new Vector3(0, gravityForce1, 0), ForceMode.Acceleration);
-            }
-
+            if (rb1.Count > 0)
+                for (int i = 0; i < rb1.Count; i++)
+                    if (rb1[i])
+                        rb1[i].AddForce(new Vector3(0, gravityForce1, 0), ForceMode.Acceleration);
+            if (playerRb1)
+                    playerRb1.AddForce(new Vector3(0, gravityForce1, 0), ForceMode.Acceleration);
         }
-        if (rb2 != null)
+        if (rb2.Count > 0 || playerRb2)
         {
             if (gravityDir2 == "ZeroGravity")
                 return;
-
-            for (int i = 0; i < rb2.Count; i++)
-            {
-                if (rb2[i])
-                    rb2[i].AddForce(new Vector3(0, gravityForce2, 0), ForceMode.Acceleration);
-            }
+            if (rb2.Count > 0)
+                for (int i = 0; i < rb2.Count; i++)
+                    if (rb2[i])
+                        rb2[i].AddForce(new Vector3(0, gravityForce2, 0), ForceMode.Acceleration);
+            if (playerRb2)
+                    playerRb2.AddForce(new Vector3(0, gravityForce2, 0), ForceMode.Acceleration);
         }
     }
 
@@ -89,16 +93,26 @@ public class Gravity : MonoBehaviour
             case "DOWN":
                 if (gravityForce1 > 0)
                 {
-                    rb1[0].velocity = new Vector3(rb1[0].velocity.x, 0, rb1[0].velocity.z);
-                        gravityForce1 *= -1;
+                    gravityForce1 *= -1;
+                    if (playerRb1)
+                        playerRb1.velocity = new Vector3(playerRb1.velocity.x, 0, playerRb1.velocity.z);
+
+                    if (rb1.Count > 0)
+                        for (int i = 0; i < rb1.Count; i++)
+                            rb1[i].velocity = new Vector3(rb1[i].velocity.x, 0, rb1[i].velocity.z);
                 }
                 gravityDir1 = "DOWN";
                 break;
             case "UP":
                 if (gravityForce1 < 0)
                 {
-                    rb1[0].velocity = new Vector3(rb1[0].velocity.x, 0, rb1[0].velocity.z);
                     gravityForce1 *= -1;
+                    if (playerRb1)
+                        playerRb1.velocity = new Vector3(playerRb1.velocity.x, 0, playerRb1.velocity.z);
+                   
+                    if (rb1.Count > 0)
+                        for (int i = 0; i < rb1.Count; i++)
+                            rb1[i].velocity = new Vector3(rb1[i].velocity.x, 0, rb1[i].velocity.z);
                 }
                 gravityDir1 = "UP";
                 break;
@@ -119,16 +133,26 @@ public class Gravity : MonoBehaviour
             case "DOWN":
                 if (gravityForce2 > 0)
                 {
-                    rb2[0].velocity = new Vector3(rb2[0].velocity.x, 0, rb2[0].velocity.z);
                     gravityForce2 *= -1;
+                    if (playerRb2)
+                        playerRb2.velocity = new Vector3(playerRb2.velocity.x, 0, playerRb2.velocity.z);
+                   
+                    if (rb2.Count > 0)
+                        for (int i = 0; i < rb2.Count; i++)
+                            rb2[i].velocity = new Vector3(rb2[i].velocity.x, 0, rb2[i].velocity.z);
                 }
                 gravityDir2 = "DOWN";
                 break;
             case "UP":
                 if (gravityForce2 < 0)
                 {
-                    rb2[0].velocity = new Vector3(rb2[0].velocity.x, 0, rb2[0].velocity.z);
                     gravityForce2 *= -1;
+                    if (playerRb2)
+                        playerRb2.velocity = new Vector3(playerRb2.velocity.x, 0, playerRb2.velocity.z);
+
+                    if (rb2.Count > 0)
+                        for (int i = 0; i < rb2.Count; i++)
+                            rb2[i].velocity = new Vector3(rb2[i].velocity.x, 0, rb2[i].velocity.z);
                 }
                 gravityDir2 = "UP";
                 break;

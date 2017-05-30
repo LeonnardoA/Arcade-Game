@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
 
     ///Gameplay
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject currentMap;
     private GameObject cuboQuebrado;
     public GameController gameController;
@@ -16,13 +16,11 @@ public class PlayerController : MonoBehaviour
     private Transform spawnPoint;
     private MeshRenderer brilho;
     public string player;
-    List<Rigidbody> playerRb = new List<Rigidbody>();
+    private List<Rigidbody> playerRb = new List<Rigidbody>();
 
     private void Start()
     {
         playerIsAlive = true;
-        if (currentMap)
-            spawnPoint = currentMap.transform.Find("SpawnPoint");
 
         playerRb.Add(this.GetComponent<Rigidbody>());
         brilho = transform.Find("brilho").GetComponent<MeshRenderer>();
@@ -34,7 +32,7 @@ public class PlayerController : MonoBehaviour
         brilho.material.mainTextureOffset = new Vector2(brilho.material.mainTextureOffset.x, brilho.material.mainTextureOffset.y + .2f * Time.deltaTime);
     }
 
-    private void ResetMap()
+    public void ResetMap()
     {
         if (currentMap && playerIsAlive)
         {
@@ -51,6 +49,17 @@ public class PlayerController : MonoBehaviour
         Gravity.DoChangeGravity(player, "DOWN");
         playerRb[0].velocity = Vector3.zero;
         //playerRb[0].isKinematic = false;
+        if (currentMap)
+        {
+            spawnPoint = currentMap.transform.Find("SpawnPoint");
+            List<Rigidbody> dynamicObjs = currentMap.GetComponent<MapController>().dynamicObjs;
+            if (dynamicObjs.Count > 0)
+                for (int i = 0; i < dynamicObjs.Count; i++)
+                {
+                    dynamicObjs[i].velocity = Vector3.zero;
+                    dynamicObjs[i].transform.localPosition = currentMap.transform.Find("SpawnPoint" + (i + 2)).localPosition;
+                }
+        }
         currentMap.transform.rotation = Quaternion.identity;
         transform.localRotation = Quaternion.identity;
         transform.localPosition = spawnPoint.localPosition;
