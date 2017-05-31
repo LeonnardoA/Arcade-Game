@@ -5,13 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-
     ///Gameplay
     //[HideInInspector]
     public GameObject currentMap;
     private GameObject cuboQuebrado;
     public GameController gameController;
-    private bool playerIsAlive = true;
+    private bool playerIsAlive;
     public Animator fade;
     private Transform spawnPoint;
     private MeshRenderer brilho;
@@ -21,7 +20,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         playerIsAlive = true;
-
         playerRb.Add(this.GetComponent<Rigidbody>());
         brilho = transform.Find("brilho").GetComponent<MeshRenderer>();
         cuboQuebrado = transform.Find("CuboQuebrado").gameObject;
@@ -34,21 +32,26 @@ public class PlayerController : MonoBehaviour
 
     public void ResetMap()
     {
-        if (currentMap && playerIsAlive)
+        if (currentMap)
         {
-            playerIsAlive = false;
+            StopCoroutine(DoReset());
             StartCoroutine(DoReset());
         }
     }
 
     IEnumerator DoReset()
     {
-        yield return new WaitForSeconds(.5f);
-        fade.SetTrigger("DoFade");
-        yield return new WaitForSeconds(.5f);
+        CancelInvoke("WaitAnimRevive");
+
+        if (!playerIsAlive && MapController.inGame)
+        {
+            yield return new WaitForSeconds(.5f);
+            fade.SetTrigger("DoFade");
+            yield return new WaitForSeconds(.5f);
+        }
         Gravity.DoChangeGravity(player, "DOWN");
         playerRb[0].velocity = Vector3.zero;
-        //playerRb[0].isKinematic = false;
+
         if (currentMap)
         {
             spawnPoint = currentMap.transform.Find("SpawnPoint");
@@ -59,23 +62,29 @@ public class PlayerController : MonoBehaviour
                     dynamicObjs[i].velocity = Vector3.zero;
                     dynamicObjs[i].transform.localPosition = currentMap.transform.Find("SpawnPoint" + (i + 2)).localPosition;
                 }
+
+            currentMap.transform.rotation = Quaternion.identity;
         }
-        currentMap.transform.rotation = Quaternion.identity;
         transform.localRotation = Quaternion.identity;
         transform.localPosition = spawnPoint.localPosition;
-        //Transform parent = transform.parent.parent.parent;
-        // parent.FindChild("Canvas").FindChild("Text").GetComponent<Timer>().ResetTimer();
-        playerIsAlive = true;
-        cuboQuebrado.GetComponent<Animator>().SetTrigger("Revive");
-        Invoke("WaitAnimRevive", .5f);       
+
+        if (!playerIsAlive)
+        {
+            cuboQuebrado.GetComponent<Animator>().SetTrigger("Revive");
+        }
+
+        Invoke("WaitAnimRevive", .5f);
+
+        MapController.inGame = true;
     }
 
     void WaitAnimRevive()
     {
+        StopCoroutine(DoReset());
+        playerIsAlive = true;
         transform.Find("CuboInteiro").gameObject.SetActive(true);
         cuboQuebrado.SetActive(false);
-        transform.GetComponent<Rigidbody>().isKinematic = false;
-        StopCoroutine(DoReset());
+        transform.GetComponent<Rigidbody>().isKinematic = false;        
     }
 
     private void OnTriggerExit(Collider other)
@@ -90,9 +99,10 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.name == "Portal")
         {
-            gameController.ChangeLevel(player);
             Gravity.DoChangeGravity(player, "DOWN");
             playerRb[0].velocity = Vector3.zero;
+            transform.GetComponent<Rigidbody>().isKinematic = true;
+            gameController.ChangeLevel(player);
         }
     }
 
@@ -100,6 +110,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Danger"))
         {
+            playerIsAlive = false;
             transform.GetComponent<Rigidbody>().isKinematic = true;
             transform.Find("CuboInteiro").gameObject.SetActive(false);
             cuboQuebrado.SetActive(true);

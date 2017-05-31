@@ -13,14 +13,13 @@ public class MapController : MonoBehaviour {
     private Rigidbody playerRb;
     public static bool inGame = false;
 
-    private void Awake()
+    private void Start()
     {
         inGame = false;
     }
 
     public void OnEnable()
     {
-        //player.GetComponent<PlayerController>().currentMap = gameObject;
         player = transform.Find("Player");
         if(player == null)
             player = transform.Find("Player2");
@@ -32,11 +31,18 @@ public class MapController : MonoBehaviour {
 
     private void Update()
     {
+        //System.Array values = System.Enum.GetValues(typeof(KeyCode));
+        //foreach (KeyCode code in values)
+        //{
+        //    if (Input.GetKeyDown(code))
+        //        print(System.Enum.GetName(typeof(KeyCode), code));
+        //}
+        
         if (inGame) {
             RotateMap();
             if (currentPlayer == "Player1")
             {
-                if (InputArcade.Apertou(0, EControle.VERDE))
+                if (InputArcade.Apertou(0, EControle.VERDE) || Input.GetKeyDown(KeyCode.Joystick1Button1))
                 {
                     if (Gravity.gravityDir1 == "DOWN")
                     {
@@ -57,7 +63,7 @@ public class MapController : MonoBehaviour {
             }
             if (currentPlayer == "Player2")
             {
-                if (InputArcade.Apertou(1, EControle.VERDE))
+                if (InputArcade.Apertou(1, EControle.VERDE) || Input.GetKeyDown(KeyCode.Joystick2Button1))
                 {
                     if (Gravity.gravityDir2 == "DOWN")
                     {
