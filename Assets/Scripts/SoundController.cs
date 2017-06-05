@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SoundController : ScriptableObject
+public class SoundController : MonoBehaviour
 {
     public static AudioClip respawn;
     public static AudioClip boost;

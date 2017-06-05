@@ -93,9 +93,13 @@ public class Gravity : MonoBehaviour
             case "DOWN":
                 if (gravityForce1 > 0)
                 {
-                    gravityForce1 *= -1;
                     if (playerRb1)
+                    {
+                        gravityForce1 *= -1;
                         playerRb1.velocity = new Vector3(playerRb1.velocity.x, 0, playerRb1.velocity.z);
+                        if (playerRb1.useGravity)
+                            playerRb1.useGravity = false;
+                    }
 
                     if (rb1.Count > 0)
                         for (int i = 0; i < rb1.Count; i++)
@@ -106,11 +110,15 @@ public class Gravity : MonoBehaviour
             case "UP":
                 if (gravityForce1 < 0)
                 {
-                    gravityForce1 *= -1;
                     if (playerRb1)
+                    {
+                        gravityForce1 *= -1;
                         playerRb1.velocity = new Vector3(playerRb1.velocity.x, 0, playerRb1.velocity.z);
-                   
-                    if (rb1.Count > 0)
+                        if (playerRb1.useGravity)
+                            playerRb1.useGravity = false;
+                    }
+
+                        if (rb1.Count > 0)
                         for (int i = 0; i < rb1.Count; i++)
                             rb1[i].velocity = new Vector3(rb1[i].velocity.x, 0, rb1[i].velocity.z);
                 }
@@ -133,9 +141,13 @@ public class Gravity : MonoBehaviour
             case "DOWN":
                 if (gravityForce2 > 0)
                 {
-                    gravityForce2 *= -1;
                     if (playerRb2)
+                    {
+                        gravityForce2 *= -1;
                         playerRb2.velocity = new Vector3(playerRb2.velocity.x, 0, playerRb2.velocity.z);
+                        if (playerRb2.useGravity)
+                            playerRb2.useGravity = false;
+                    }
                    
                     if (rb2.Count > 0)
                         for (int i = 0; i < rb2.Count; i++)
@@ -146,9 +158,13 @@ public class Gravity : MonoBehaviour
             case "UP":
                 if (gravityForce2 < 0)
                 {
-                    gravityForce2 *= -1;
                     if (playerRb2)
+                    {
+                        gravityForce2 *= -1;
                         playerRb2.velocity = new Vector3(playerRb2.velocity.x, 0, playerRb2.velocity.z);
+                        if (playerRb2.useGravity)
+                            playerRb2.useGravity = false;
+                    }
 
                     if (rb2.Count > 0)
                         for (int i = 0; i < rb2.Count; i++)

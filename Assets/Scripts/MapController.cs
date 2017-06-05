@@ -4,12 +4,12 @@ using UnityEngine;
 using ArcadePUCCampinas;
 
 public class MapController : MonoBehaviour {
-
+    [HideInInspector]
     public string currentPlayer; // Player1 - Player2
     public float speed;
     public Transform player;
     public List<Rigidbody> dynamicObjs = new List<Rigidbody>();
-    
+
     private Rigidbody playerRb;
     public static bool inGame = false;
 
@@ -21,12 +21,19 @@ public class MapController : MonoBehaviour {
     public void OnEnable()
     {
         player = transform.Find("Player");
-        if(player == null)
+        currentPlayer = "Player1";
+        if (player == null)
+        {
             player = transform.Find("Player2");
+            currentPlayer = "Player2";
+        }
 
-        playerRb = player.GetComponent<Rigidbody>();
+        if (player != null)
+        {
+            playerRb = player.GetComponent<Rigidbody>();
 
-        Gravity.ConfigDynamicObjs(currentPlayer, dynamicObjs, player.GetComponent<Rigidbody>());
+            Gravity.ConfigDynamicObjs(currentPlayer, dynamicObjs, playerRb);
+        }
     }
 
     private void Update()

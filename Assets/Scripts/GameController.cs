@@ -7,23 +7,40 @@ public class GameController : MonoBehaviour
 {
     //HUD
     public GameObject winHUD;
+    public CurrentMapUIControler currentMapUIControler;
 
     // LEVELS
     public Transform[] levels;
     public Transform[] player;
+    public Transform[] maps;
+    public Transform[] _camera;
     private PlayerController player1;
     private PlayerController player2;
-    private int totalLevels = 6;
-    private int currentLevelPlayer1 = 0;
-    private int currentLevelPlayer2 = 0;
-    private int currentPositionPlayer1 = 30;
-    private int currentPositionPlayer2 = 30;
+    public static int totalLevels;
+    public static int currentLevelPlayer1 = -1;
+    public static int currentLevelPlayer2 = -1;
     private int speed = 2;
 
     private void Start()
     {
+        currentMapUIControler = FindObjectOfType<CurrentMapUIControler>();
+
         player1 = player[0].GetComponent<PlayerController>();
         player2 = player[1].GetComponent<PlayerController>();
+        totalLevels = (maps.Length - 1);
+        for (int i = 0; i < maps.Length; i++)
+        {
+            if (i == 0)
+            {
+                Instantiate(maps[i], new Vector3(levels[0].position.x, 0, 0), Quaternion.identity, levels[0]);
+                Instantiate(maps[i], new Vector3(levels[1].position.x, 0, 0), Quaternion.identity, levels[1]);
+            }
+            else
+            {
+                Instantiate(maps[i], new Vector3(levels[0].position.x, (maps[i - 1].position.y + 30), 0), Quaternion.identity, levels[0]);
+                Instantiate(maps[i], new Vector3(levels[1].position.x, (maps[i - 1].position.y + 30), 0), Quaternion.identity, levels[1]);
+            }
+        }
 
         ChangeLevel("Player1");
         ChangeLevel("Player2");
@@ -31,12 +48,18 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        levels[0].transform.localPosition = Vector3.Lerp(levels[0].transform.localPosition, new Vector3(levels[0].transform.localPosition.x,
-            currentPositionPlayer1,
-            levels[0].transform.localPosition.z), speed * Time.deltaTime);
-        levels[1].transform.localPosition = Vector3.Lerp(levels[1].transform.localPosition, new Vector3(levels[1].transform.localPosition.x,
-          currentPositionPlayer2,
-          levels[1].transform.localPosition.z), speed * Time.deltaTime);
+        if (levels[0].childCount >= totalLevels && levels[1].childCount >= totalLevels)
+        {
+            if (currentLevelPlayer1 < levels[0].childCount)
+                _camera[0].position = Vector3.Lerp(_camera[0].position, new Vector3(levels[0].GetChild(currentLevelPlayer1).position.x, maps[currentLevelPlayer1].position.y, _camera[0].position.z), speed * Time.deltaTime);
+            if (currentLevelPlayer2 < levels[1].childCount)
+                _camera[1].position = Vector3.Lerp(_camera[1].position, new Vector3(levels[1].GetChild(currentLevelPlayer2).position.x, maps[currentLevelPlayer2].position.y, _camera[1].position.z), speed * Time.deltaTime);
+        }//levels[0].transform.localPosition = Vector3.Lerp(levels[0].transform.localPosition, new Vector3(levels[0].transform.localPosition.x,
+        //    currentPositionPlayer1,
+        //    levels[0].transform.localPosition.z), speed * Time.deltaTime);
+        //levels[1].transform.localPosition = Vector3.Lerp(levels[1].transform.localPosition, new Vector3(levels[1].transform.localPosition.x,
+        //  currentPositionPlayer2,
+        //  levels[1].transform.localPosition.z), speed * Time.deltaTime);
 
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -59,10 +82,10 @@ public class GameController : MonoBehaviour
     public void ResetGame()
     {
         MapController.inGame = true;
-        currentLevelPlayer1 = 0;
-        currentLevelPlayer2 = 0;
-        currentPositionPlayer1 = 30;
-        currentPositionPlayer2 = 30;
+        currentLevelPlayer1 = -1;
+        currentLevelPlayer2 = -1;
+        //currentPositionPlayer1 = 30;
+        //currentPositionPlayer2 = 30;
         ChangeLevel("Player1");
         ChangeLevel("Player2");
         winHUD.SetActive(false);
@@ -76,9 +99,9 @@ public class GameController : MonoBehaviour
                 if (currentLevelPlayer1 < totalLevels)
                 {
                     currentLevelPlayer1++;
-                    currentPositionPlayer1 -= 30;
-                    Transform currentLevel1 = levels[0].Find("Map" + currentLevelPlayer1);
+                    Transform currentLevel1 = levels[0].GetChild(currentLevelPlayer1);
                     player1.currentMap = currentLevel1.gameObject;
+                    //currentPositionPlayer1 -= 30;
                     player1.transform.SetParent(currentLevel1);
                     player1.ResetMap();
                 }
@@ -94,9 +117,9 @@ public class GameController : MonoBehaviour
                 if (currentLevelPlayer2 < totalLevels)
                 {
                     currentLevelPlayer2++;
-                    currentPositionPlayer2 -= 30;
-                    Transform currentLevel2 = levels[1].Find("Map" + currentLevelPlayer2);
+                    Transform currentLevel2 = levels[1].GetChild(currentLevelPlayer2);
                     player2.currentMap = currentLevel2.gameObject;
+                    //currentPositionPlayer2 -= 30;
                     player2.transform.SetParent(currentLevel2);
                     player2.ResetMap();
                 }
@@ -110,20 +133,25 @@ public class GameController : MonoBehaviour
                 break;
         }
 
-        for (int i = 1; i < totalLevels; i++)
+        for (int i = 0; i < totalLevels; i++)
         {
-            levels[0].Find("Map" + i).GetComponent<MapController>().enabled = false;
-            levels[1].Find("Map" + i).GetComponent<MapController>().enabled = false;
+            levels[0].GetChild(i).GetComponent<MapController>().enabled = false;
+            levels[1].GetChild(i).GetComponent<MapController>().enabled = false;
         }
-        if (currentLevelPlayer1 <= 0)
-            levels[0].Find("Map1").GetComponent<MapController>().enabled = true;
-        else
-            if (currentLevelPlayer2 < totalLevels)
-            levels[0].Find("Map" + (currentLevelPlayer1)).GetComponent<MapController>().enabled = true;
-        if (currentLevelPlayer2 <= 0)
-            levels[1].Find("Map1").GetComponent<MapController>().enabled = true;
-        else
-            if (currentLevelPlayer2 < totalLevels)
-            levels[1].Find("Map" + (currentLevelPlayer2)).GetComponent<MapController>().enabled = true;
+        if (currentLevelPlayer1 >= 0 && currentLevelPlayer2 >= 0) {
+            levels[0].GetChild(currentLevelPlayer1).GetComponent<MapController>().enabled = true;
+            levels[1].GetChild(currentLevelPlayer2).GetComponent<MapController>().enabled = true;
+            currentMapUIControler.Setup();
+        }
+        //if (currentLevelPlayer1 <= 0)
+        //    levels[0].GetChild(currentLevelPlayer1).GetComponent<MapController>().enabled = true;
+        //else
+        //    if (currentLevelPlayer2 < totalLevels)
+        //    levels[0].GetChild(currentLevelPlayer1).GetComponent<MapController>().enabled = true;
+        //if (currentLevelPlayer2 <= 0)
+        //    levels[1].GetChild(currentLevelPlayer2).GetComponent<MapController>().enabled = true;
+        //else
+        //    if (currentLevelPlayer2 < totalLevels)
+        //    levels[1].GetChild(currentLevelPlayer2).GetComponent<MapController>().enabled = true;
     }
 }
