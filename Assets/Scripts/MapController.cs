@@ -11,15 +11,11 @@ public class MapController : MonoBehaviour {
     public List<Rigidbody> dynamicObjs = new List<Rigidbody>();
 
     private Rigidbody playerRb;
-    public static bool inGame = false;
-
-    private void Start()
-    {
-        inGame = false;
-    }
-
+    private bool inGame = false;
+    
     public void OnEnable()
     {
+        inGame = true;
         player = transform.Find("Player");
         currentPlayer = "Player1";
         if (player == null)
@@ -44,7 +40,6 @@ public class MapController : MonoBehaviour {
         //    if (Input.GetKeyDown(code))
         //        print(System.Enum.GetName(typeof(KeyCode), code));
         //}
-        
         if (inGame) {
             RotateMap();
             if (currentPlayer == "Player1")

@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 
     private void Start()
     {
-        MapController.inGame = true;
+       // MapController.inGame = true;
         canDoAnim = false;
 
         //transform.position = new Vector3(transform.position.x, 150, -50);

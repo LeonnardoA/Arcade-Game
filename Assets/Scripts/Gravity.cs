@@ -8,6 +8,8 @@ public class Gravity : MonoBehaviour
     public static string gravityDir2 = " ";
     public static float gravityForce1 = 20;
     public static float gravityForce2 = 20;
+    public static bool canChangeGravity1 = true;
+    public static bool canChangeGravity2 = true;
     private static List<Rigidbody> rb1 = new List<Rigidbody>();
     private static List<Rigidbody> rb2 = new List<Rigidbody>();
     private static Rigidbody playerRb1;
@@ -51,20 +53,21 @@ public class Gravity : MonoBehaviour
             if (rb1.Count > 0)
                 for (int i = 0; i < rb1.Count; i++)
                     if (rb1[i])
-                        rb1[i].AddForce(new Vector3(0, gravityForce1, 0), ForceMode.Acceleration);
+                        rb1[i].AddForce(new Vector3(0, (gravityForce1 / 2), 0), ForceMode.Acceleration);
             if (playerRb1)
-                    playerRb1.AddForce(new Vector3(0, gravityForce1, 0), ForceMode.Acceleration);
+                playerRb1.AddForce(new Vector3(0, gravityForce1, 0), ForceMode.Acceleration);
         }
         if (rb2.Count > 0 || playerRb2)
         {
             if (gravityDir2 == "ZeroGravity")
                 return;
+
             if (rb2.Count > 0)
                 for (int i = 0; i < rb2.Count; i++)
                     if (rb2[i])
-                        rb2[i].AddForce(new Vector3(0, gravityForce2, 0), ForceMode.Acceleration);
+                        rb2[i].AddForce(new Vector3(0, (gravityForce2 / 2), 0), ForceMode.Acceleration);
             if (playerRb2)
-                    playerRb2.AddForce(new Vector3(0, gravityForce2, 0), ForceMode.Acceleration);
+                playerRb2.AddForce(new Vector3(0, gravityForce2, 0), ForceMode.Acceleration);
         }
     }
 
@@ -85,7 +88,8 @@ public class Gravity : MonoBehaviour
 
     private static void ChangeGravity1(string dir)
     {
-        if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity")
+
+        if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity" || !canChangeGravity1)
             return;
 
         switch (dir)
@@ -133,7 +137,7 @@ public class Gravity : MonoBehaviour
 
     private static void ChangeGravity2(string dir)
     {
-        if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity")
+        if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity" || !canChangeGravity2)
             return;
 
         switch (dir)
@@ -148,7 +152,7 @@ public class Gravity : MonoBehaviour
                         if (playerRb2.useGravity)
                             playerRb2.useGravity = false;
                     }
-                   
+
                     if (rb2.Count > 0)
                         for (int i = 0; i < rb2.Count; i++)
                             rb2[i].velocity = new Vector3(rb2[i].velocity.x, 0, rb2[i].velocity.z);

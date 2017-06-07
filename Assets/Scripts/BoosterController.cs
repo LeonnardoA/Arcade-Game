@@ -16,14 +16,17 @@ public class BoosterController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.name == "Player")
+        if (other.transform.name == "Player" || other.transform.name == "Player2")
         {
             playerRb = other.GetComponent<Rigidbody>();
             Gravity.DoChangeGravity(playerRb.GetComponent<PlayerController>().player, "ZeroGravity");
             playerRb.velocity = Vector3.zero;
             other.transform.position = transform.position;
             other.transform.rotation = transform.rotation;
-
+            if (playerRb.transform.name == "Player")
+                Gravity.canChangeGravity1 = false;
+            if (playerRb.transform.name == "Player2")
+                Gravity.canChangeGravity2 = false;
             StartCoroutine(DoBoost());
         }
     }
@@ -46,6 +49,10 @@ public class BoosterController : MonoBehaviour
         ////playerRb.AddForce(transform.right * 1000, ForceMode.Acceleration);
         //yield return new WaitForSeconds(.5f);
         //canAddForce = false;
+        if (playerRb.transform.name == "Player")
+            Gravity.canChangeGravity1 = true;
+        if (playerRb.transform.name == "Player2")
+            Gravity.canChangeGravity2 = true;
     }
     private void OnDrawGizmos()
     {

@@ -6,9 +6,14 @@ public class CurrentMapUIControler : MonoBehaviour {
     
     public GameObject[] player;
     public List<Transform> maps;
-    float currentDistancePlayer1 = 10;
-    float currentDistancePlayer2 = 40;
-    
+    //float currentDistancePlayer1 = 10;
+    //float currentDistancePlayer2 = 40;
+
+    private void OnEnable()
+    {
+        Invoke("Setup", .1f);
+    }
+
     public void Setup()
     {
         if (maps.Count == 0)

@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerIsAlive = true;
         playerRb.Add(this.GetComponent<Rigidbody>());
         brilho = transform.Find("brilho").GetComponent<MeshRenderer>();
         cuboQuebrado = transform.Find("CuboQuebrado").gameObject;
@@ -43,7 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         CancelInvoke("WaitAnimRevive");
 
-        if (!playerIsAlive && MapController.inGame)
+        if (!playerIsAlive) //&& MapController.inGame)
         {
             yield return new WaitForSeconds(.5f);
             fade.SetTrigger("DoFade");
@@ -75,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
         Invoke("WaitAnimRevive", .5f);
 
-        MapController.inGame = true;
+        //MapController.inGame = true;
     }
 
     void WaitAnimRevive()
