@@ -72,15 +72,13 @@ public class Gravity : MonoBehaviour
     }
 
     public static void DoChangeGravity(string player, string dir)
-    {
+    {   
         switch (player)
         {
             case "Player1":
-               // rb1 = dynamicObjs;
                 ChangeGravity1(dir);
                 break;
             case "Player2":
-                //rb2 = dynamicObjs;
                 ChangeGravity2(dir);
                 break;
         }
@@ -88,7 +86,6 @@ public class Gravity : MonoBehaviour
 
     private static void ChangeGravity1(string dir)
     {
-
         if (dir != "UP" && dir != "DOWN" && dir != "ZeroGravity" || !canChangeGravity1)
             return;
 

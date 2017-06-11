@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         CancelInvoke("WaitAnimRevive");
 
-        if (!playerIsAlive) //&& MapController.inGame)
+        if (!playerIsAlive)
         {
             yield return new WaitForSeconds(.5f);
             fade.SetTrigger("DoFade");
@@ -73,8 +73,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Invoke("WaitAnimRevive", .5f);
-
-        //MapController.inGame = true;
     }
 
     void WaitAnimRevive()
@@ -128,5 +126,7 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
+        if(Gravity.gravityDir1 == "ZeroGravity" || Gravity.gravityDir2 == "ZeroGravity")
+        Gravity.DoChangeGravity(player, "DOWN");
     }
 }

@@ -11,11 +11,10 @@ public class MapController : MonoBehaviour {
     public List<Rigidbody> dynamicObjs = new List<Rigidbody>();
 
     private Rigidbody playerRb;
-    private bool inGame = false;
+    public static bool inGame = false;
     
     public void OnEnable()
     {
-        inGame = true;
         player = transform.Find("Player");
         currentPlayer = "Player1";
         if (player == null)

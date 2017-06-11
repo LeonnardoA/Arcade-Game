@@ -28,4 +28,17 @@ public class Timer : MonoBehaviour {
         timer = -1;
         InvokeRepeating("TimerControl", 0, 1);
     }
+
+    public void StopTime()
+    {
+        CancelInvoke("TimerControl");
+
+        if (!PlayerPrefs.HasKey("BEST_TIME"))
+            PlayerPrefs.SetInt("BEST_TIME", timer);
+        else
+            if (timer < PlayerPrefs.GetInt("BEST_TIME"))
+            PlayerPrefs.SetInt("BEST_TIME", timer);
+
+        PlayerPrefs.Save();
+    }
 }

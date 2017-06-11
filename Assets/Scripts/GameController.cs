@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
 {
     //HUD
     public GameObject winHUD;
+    public Text bestTimeTxt;
+    public GameObject[] timer;
     public CurrentMapUIControler _currentMapUIControler;
     public GameObject currentMapUIControler;
     public GameObject fade;
@@ -24,6 +26,19 @@ public class GameController : MonoBehaviour
     public static int currentLevelPlayer1 = -1;
     public static int currentLevelPlayer2 = -1;
     private int speed = 2;
+
+    public bool resetPlayerPrefs = false;
+
+    private void Awake()
+    {
+        if(resetPlayerPrefs)
+        PlayerPrefs.DeleteAll();
+
+        if (PlayerPrefs.HasKey("BEST_TIME"))
+            bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
+        else
+            bestTimeTxt.text = "BEST TIME: 00 s";
+    }
 
     private void Start()
     {
@@ -75,9 +90,7 @@ public class GameController : MonoBehaviour
         {
             Application.Quit();   
         }
-
-        //if (!MapController.inGame)
-        //{
+        
         if (Input.GetKeyDown(KeyCode.S))
         {
             currentMapUIControler.SetActive(true);
@@ -85,27 +98,35 @@ public class GameController : MonoBehaviour
             camerasGameplay[1].enabled = true;
             cameraMenu.SetActive(false);
             fade.SetActive(true);
-            //MapController.inGame = false;
+            timer[0].SetActive(true);
+            timer[1].SetActive(true);
+            MapController.inGame = true;
         }
-        //}
     }
 
     public void ResetGame()
     {
+        MapController.inGame = false;
         currentLevelPlayer1 = -1;
         currentLevelPlayer2 = -1;
-        //currentPositionPlayer1 = 30;
-        //currentPositionPlayer2 = 30;
+
+        winHUD.SetActive(false);
         ChangeLevel("Player1");
         ChangeLevel("Player2");
-        winHUD.SetActive(false);
 
-        //MapController.inGame = false;
+        timer[0].GetComponentInChildren<Timer>().ResetTimer();
+        timer[1].GetComponentInChildren<Timer>().ResetTimer();
+        timer[0].SetActive(false);
+        timer[1].SetActive(false);
         currentMapUIControler.SetActive(false);
         camerasGameplay[0].enabled = false;
         camerasGameplay[1].enabled = false;
         cameraMenu.SetActive(true);
         fade.SetActive(false);
+        if (PlayerPrefs.HasKey("BEST_TIME"))
+            bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
+        else
+            bestTimeTxt.text = "BEST TIME: 00 s";
     }
 
     public void ChangeLevel(string currentPlayer)
@@ -118,16 +139,20 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer1++;
                     Transform currentLevel1 = levels[0].GetChild(currentLevelPlayer1);
                     player1.currentMap = currentLevel1.gameObject;
-                    //currentPositionPlayer1 -= 30;
+
                     player1.transform.SetParent(currentLevel1);
                     player1.ResetMap();
                 }
                 else
                 {
                     winHUD.SetActive(true);
-                    Text txt = winHUD.transform.Find("Text").GetComponent<Text>();
-                    txt.text = "Jogador 1 venceu!";
-                    // MapController.inGame = false;
+                    Text txt = winHUD.transform.Find("Text1").GetComponent<Text>();
+                    txt.text = "1º Player 1";
+                    Text txt2 = winHUD.transform.Find("Text2").GetComponent<Text>();
+                    txt2.text = "2º Player 2";
+                    timer[0].GetComponentInChildren<Timer>().StopTime();
+                    timer[1].GetComponentInChildren<Timer>().StopTime();
+                    MapController.inGame = false;
                 }
                 break;
             case "Player2":
@@ -136,21 +161,25 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer2++;
                     Transform currentLevel2 = levels[1].GetChild(currentLevelPlayer2);
                     player2.currentMap = currentLevel2.gameObject;
-                    //currentPositionPlayer2 -= 30;
+
                     player2.transform.SetParent(currentLevel2);
                     player2.ResetMap();
                 }
                 else
                 {
                     winHUD.SetActive(true);
-                    Text txt = winHUD.transform.Find("Text").GetComponent<Text>();
-                    txt.text = "Jogador 2 venceu!";
-                    //MapController.inGame = false;
+                    Text txt = winHUD.transform.Find("Text1").GetComponent<Text>();
+                    txt.text = "1º Player 2";
+                    Text txt2 = winHUD.transform.Find("Text2").GetComponent<Text>();
+                    txt2.text = "2º Player 1";
+                    timer[0].GetComponentInChildren<Timer>().StopTime();
+                    timer[1].GetComponentInChildren<Timer>().StopTime();
+                    MapController.inGame = false;
                 }
                 break;
         }
 
-        for (int i = 0; i < totalLevels; i++)
+        for (int i = 0; i <= totalLevels; i++)
         {
             levels[0].GetChild(i).GetComponent<MapController>().enabled = false;
             levels[1].GetChild(i).GetComponent<MapController>().enabled = false;
@@ -162,15 +191,5 @@ public class GameController : MonoBehaviour
             if (_currentMapUIControler)
                 _currentMapUIControler.Setup();
         }
-        //if (currentLevelPlayer1 <= 0)
-        //    levels[0].GetChild(currentLevelPlayer1).GetComponent<MapController>().enabled = true;
-        //else
-        //    if (currentLevelPlayer2 < totalLevels)
-        //    levels[0].GetChild(currentLevelPlayer1).GetComponent<MapController>().enabled = true;
-        //if (currentLevelPlayer2 <= 0)
-        //    levels[1].GetChild(currentLevelPlayer2).GetComponent<MapController>().enabled = true;
-        //else
-        //    if (currentLevelPlayer2 < totalLevels)
-        //    levels[1].GetChild(currentLevelPlayer2).GetComponent<MapController>().enabled = true;
     }
 }
