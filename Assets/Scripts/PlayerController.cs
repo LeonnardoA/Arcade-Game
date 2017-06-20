@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
         if (currentMap)
         {
             spawnPoint = currentMap.transform.Find("SpawnPoint");
+            //if (!spawnPoint)
+            //    spawnPoint = currentMap.transform.GetChild(0).transform.Find("SpawnPoint");
             List<Rigidbody> dynamicObjs = currentMap.GetComponent<MapController>().dynamicObjs;
             if (dynamicObjs.Count > 0)
                 for (int i = 0; i < dynamicObjs.Count; i++)
