@@ -124,7 +124,12 @@ public class GameController : MonoBehaviour
         {
             Application.Quit();   
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            PlayerPrefs.DeleteAll();
+        }
+
         if (Input.GetKeyDown(KeyCode.S))
         {
             currentMapUIControler.SetActive(true);
@@ -161,8 +166,6 @@ public class GameController : MonoBehaviour
             bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
         else
             bestTimeTxt.text = "BEST TIME: 00 s";
-
-        
     }
 
     public void ChangeLevel(string currentPlayer)
