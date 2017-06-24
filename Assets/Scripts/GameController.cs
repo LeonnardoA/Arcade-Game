@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour
     //HUD
     public GameObject winHUD;
     public Text bestTimeTxt;
-    public CurrentMapUIControler _currentMapUIControler;
+    public CurrentMapUIControler script_currentMapUIControler;
     public GameObject currentMapUIControler;
     public GameObject fade;
     public GameObject cameraMenu;
@@ -52,19 +52,19 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         //maps = null;
-        for (int i = 0; i < (mapsByDifficult.mapsN1.Count + 3); i++)
+        for (int i = 0; i < 2; i++)
         {
             int randomMap = Random.Range(0, mapsByDifficult.mapsN1.Count);
             maps.Insert(maps.Count, mapsByDifficult.mapsN1[randomMap]);
             mapsByDifficult.mapsN1.Remove(mapsByDifficult.mapsN1[randomMap]);
         }
-        for (int x = 0; x < (mapsByDifficult.mapsN2.Count + 4); x++)
+        for (int x = 0; x < 2; x++)
         {
             int randomMap = Random.Range(0, mapsByDifficult.mapsN2.Count);
             maps.Insert(maps.Count, mapsByDifficult.mapsN2[randomMap]);
             mapsByDifficult.mapsN2.Remove(mapsByDifficult.mapsN2[randomMap]);
         }
-        for (int y = 0; y < (mapsByDifficult.mapsN3.Count + 3); y++)
+        for (int y = 0; y < 2; y++)
         {
             int randomMap = Random.Range(0, mapsByDifficult.mapsN3.Count);
             maps.Insert(maps.Count, mapsByDifficult.mapsN3[randomMap]);
@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (levels[0].childCount >= totalLevels && levels[1].childCount >= totalLevels)
+        if (levels[0].childCount >= totalLevels && levels[1].childCount >= totalLevels && MapController.inGame)
         {
             if (currentLevelPlayer1 < levels[0].childCount)
                 _camera[0].position = Vector3.Lerp(_camera[0].position, new Vector3(levels[0].GetChild(currentLevelPlayer1).position.x, levels[0].GetChild(currentLevelPlayer1).transform.position.y, _camera[0].position.z), speed * Time.deltaTime);
@@ -148,6 +148,9 @@ public class GameController : MonoBehaviour
         MapController.inGame = false;
         currentLevelPlayer1 = -1;
         currentLevelPlayer2 = -1;
+        
+        if (script_currentMapUIControler)
+            script_currentMapUIControler.Setup();
 
         winHUD.SetActive(false);
         ChangeLevel("Player1");
@@ -178,9 +181,11 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer1++;
                     Transform currentLevel1 = levels[0].GetChild(currentLevelPlayer1);
                     player1.currentMap = currentLevel1.gameObject;
-
+                    Debug.Log(currentLevelPlayer1);
                     player1.transform.SetParent(currentLevel1);
                     player1.ResetMap();
+                    if (currentLevelPlayer1 >= 1)
+                        script_currentMapUIControler.ProgressBarController1();
                 }
                 else
                 {
@@ -200,9 +205,10 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer2++;
                     Transform currentLevel2 = levels[1].GetChild(currentLevelPlayer2);
                     player2.currentMap = currentLevel2.gameObject;
-
                     player2.transform.SetParent(currentLevel2);
                     player2.ResetMap();
+                    if (currentLevelPlayer2 >= 1)
+                        script_currentMapUIControler.ProgressBarController2();
                 }
                 else
                 {
@@ -228,9 +234,6 @@ public class GameController : MonoBehaviour
         if (currentLevelPlayer1 >= 0 && currentLevelPlayer2 >= 0){// && currentLevelPlayer1 <= totalLevels && currentLevelPlayer2 <= totalLevels) {
             levels[0].GetChild(currentLevelPlayer1).GetComponent<MapController>().enabled = true;
             levels[1].GetChild(currentLevelPlayer2).GetComponent<MapController>().enabled = true;
-            
-            if (_currentMapUIControler)
-                _currentMapUIControler.Setup();
         }
     }
 }
