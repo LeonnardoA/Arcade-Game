@@ -76,8 +76,6 @@ public class CurrentMapUIControler : MonoBehaviour
     public void ProgressBarController1()
     {
         traceTarget[0] += offset;
-
-        Debug.Log(traceTarget[0]);
     }
     public void ProgressBarController2()
     {

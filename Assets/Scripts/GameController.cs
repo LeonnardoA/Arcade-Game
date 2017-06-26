@@ -15,7 +15,6 @@ public class GameController : MonoBehaviour
 {
     //HUD
     public GameObject winHUD;
-    public Text bestTimeTxt;
     public CurrentMapUIControler script_currentMapUIControler;
     public GameObject currentMapUIControler;
     public GameObject fade;
@@ -43,10 +42,10 @@ public class GameController : MonoBehaviour
         if(resetPlayerPrefs)
         PlayerPrefs.DeleteAll();
 
-        if (PlayerPrefs.HasKey("BEST_TIME"))
-            bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
-        else
-            bestTimeTxt.text = "BEST TIME: 00 s";
+        //if (PlayerPrefs.HasKey("BEST_TIME"))
+        //    bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
+        //else
+        //    bestTimeTxt.text = "BEST TIME: 00 s";
     }
 
     private void Start()
@@ -129,22 +128,25 @@ public class GameController : MonoBehaviour
         {
             PlayerPrefs.DeleteAll();
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            currentMapUIControler.SetActive(true);
-            camerasGameplay[0].enabled = true;
-            camerasGameplay[1].enabled = true;
-            cameraMenu.SetActive(false);
-            fade.SetActive(true);
-            timer[0].SetActive(true);
-            timer[1].SetActive(true);
-            MapController.inGame = true;
-        }
+    public void StartGame()
+    {
+        currentMapUIControler.SetActive(true);
+        camerasGameplay[0].enabled = true;
+        camerasGameplay[1].enabled = true;
+        cameraMenu.SetActive(false);
+        fade.SetActive(true);
+        timer[0].SetActive(true);
+        //timer[1].SetActive(true);
+        MapController.inGame = true;
+        timer[0].GetComponentInChildren<Timer>().InvokeRepeating("TimerControl", 0, 1);
     }
 
     public void ResetGame()
     {
+        timer[0].GetComponentInChildren<Timer>().CancelInvoke("TimerControl");
+        timer[0].GetComponentInChildren<Timer>().ResetTimer();
         MapController.inGame = false;
         currentLevelPlayer1 = -1;
         currentLevelPlayer2 = -1;
@@ -155,20 +157,18 @@ public class GameController : MonoBehaviour
         winHUD.SetActive(false);
         ChangeLevel("Player1");
         ChangeLevel("Player2");
-
+        MenuNavigate.canNavigate = true;
         timer[0].GetComponentInChildren<Timer>().ResetTimer();
-        timer[1].GetComponentInChildren<Timer>().ResetTimer();
         timer[0].SetActive(false);
-        timer[1].SetActive(false);
         currentMapUIControler.SetActive(false);
         camerasGameplay[0].enabled = false;
         camerasGameplay[1].enabled = false;
         cameraMenu.SetActive(true);
         fade.SetActive(false);
-        if (PlayerPrefs.HasKey("BEST_TIME"))
-            bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
-        else
-            bestTimeTxt.text = "BEST TIME: 00 s";
+        //if (PlayerPrefs.HasKey("BEST_TIME"))
+        //    bestTimeTxt.text = "BEST TIME: " + PlayerPrefs.GetInt("BEST_TIME").ToString() + " s";
+        //else
+        //    bestTimeTxt.text = "BEST TIME: 00 s";
     }
 
     public void ChangeLevel(string currentPlayer)
@@ -181,7 +181,6 @@ public class GameController : MonoBehaviour
                     currentLevelPlayer1++;
                     Transform currentLevel1 = levels[0].GetChild(currentLevelPlayer1);
                     player1.currentMap = currentLevel1.gameObject;
-                    Debug.Log(currentLevelPlayer1);
                     player1.transform.SetParent(currentLevel1);
                     player1.ResetMap();
                     if (currentLevelPlayer1 >= 1)
@@ -191,12 +190,11 @@ public class GameController : MonoBehaviour
                 {
                     winHUD.SetActive(true);
                     Text txt = winHUD.transform.Find("Text1").GetComponent<Text>();
-                    txt.text = "1º Player 1";
+                    txt.text = "1º " + SetNamePlayers.namePlayer1;
                     Text txt2 = winHUD.transform.Find("Text2").GetComponent<Text>();
-                    txt2.text = "2º Player 2";
-                    timer[0].GetComponentInChildren<Timer>().StopTime();
-                    timer[1].GetComponentInChildren<Timer>().StopTime();
+                    txt2.text = "2º " + SetNamePlayers.namePlayer2;
                     MapController.inGame = false;
+                    timer[0].GetComponentInChildren<Timer>().StopTime(SetNamePlayers.namePlayer1);
                 }
                 break;
             case "Player2":
@@ -214,12 +212,11 @@ public class GameController : MonoBehaviour
                 {
                     winHUD.SetActive(true);
                     Text txt = winHUD.transform.Find("Text1").GetComponent<Text>();
-                    txt.text = "1º Player 2";
+                    txt.text = "1º " + SetNamePlayers.namePlayer2;
                     Text txt2 = winHUD.transform.Find("Text2").GetComponent<Text>();
-                    txt2.text = "2º Player 1";
-                    timer[0].GetComponentInChildren<Timer>().StopTime();
-                    timer[1].GetComponentInChildren<Timer>().StopTime();
+                    txt2.text = "2º " + SetNamePlayers.namePlayer1;
                     MapController.inGame = false;
+                    timer[0].GetComponentInChildren<Timer>().StopTime(SetNamePlayers.namePlayer2);
                 }
                 break;
         }

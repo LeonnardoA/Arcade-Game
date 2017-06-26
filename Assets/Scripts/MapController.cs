@@ -43,7 +43,7 @@ public class MapController : MonoBehaviour {
             RotateMap();
             if (currentPlayer == "Player1")
             {
-                if (InputArcade.Apertou(0, EControle.VERDE) || Input.GetKeyDown(KeyCode.Joystick1Button1))
+                if (InputArcade.Apertou(MenuNavigate.inputPlayer1, EControle.VERDE) || Input.GetKeyDown(KeyCode.Joystick1Button1))
                 {
                     if (Gravity.gravityDir1 == "DOWN")
                     {
@@ -62,9 +62,9 @@ public class MapController : MonoBehaviour {
                     }
                 }
             }
-            if (currentPlayer == "Player2")
+            else if (currentPlayer == "Player2")
             {
-                if (InputArcade.Apertou(1, EControle.VERDE) || Input.GetKeyDown(KeyCode.Joystick2Button1))
+                if (InputArcade.Apertou(MenuNavigate.inputPlayer2, EControle.VERDE) || Input.GetKeyDown(KeyCode.Joystick2Button1))
                 {
                     if (Gravity.gravityDir2 == "DOWN")
                     {
@@ -93,9 +93,9 @@ public class MapController : MonoBehaviour {
         {
             float moveHorizontal = 0;
             if (currentPlayer == "Player1")
-                moveHorizontal = InputArcade.Eixo(0, EEixo.HORIZONTAL);
+                moveHorizontal = InputArcade.Eixo(MenuNavigate.inputPlayer1, EEixo.HORIZONTAL);
             else
-                moveHorizontal = InputArcade.Eixo(1, EEixo.HORIZONTAL);
+                moveHorizontal = InputArcade.Eixo(MenuNavigate.inputPlayer2, EEixo.HORIZONTAL);
 
             transform.Rotate(moveHorizontal * -transform.forward * speed * Time.deltaTime);
             if (transform.eulerAngles.z > 45 && transform.eulerAngles.z < 60)
